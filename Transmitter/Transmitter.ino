@@ -4,7 +4,7 @@
 // Include dependant SPI Library
 #include <SPI.h>
 
-#define DEBUG 1
+#define DEBUG 0
 #define BUZ 9
 
 #define LVRx A0
@@ -16,7 +16,6 @@
 #define Rsw  7
 
 int val_lvrx = 0;
-
 int val_rvrx = 0;
 int val_rvry = 0;
 
