@@ -90,6 +90,12 @@ void loop()
   Serial.println(val_rvry);
 #endif
 
+/* 0: left;
+   1: right;
+   2: honk;
+   3: front;
+   4: back;
+   5: panic */
   /* right joystick */
   if (val_rvry == 255)
   {
@@ -137,6 +143,7 @@ void loop()
     Serial.print(";");
   }
   Serial.println(" ");
+  delay(1000);
 #endif
 
   rf_driver.send((uint8_t *)buf, 6);

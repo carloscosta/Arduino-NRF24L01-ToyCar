@@ -126,10 +126,10 @@ void loop()
 #ifdef DEBUG
       Serial.println("forward");
 #endif
-      digitalWrite(in1, LOW);
-      digitalWrite(in2, HIGH);
+      digitalWrite(in1, HIGH);
+      digitalWrite(in2, LOW);
       digitalWrite(in3, LOW);
-      digitalWrite(in4, LOW);
+      digitalWrite(in4, HIGH);
     }
 
     if (buf[4] > 0)
@@ -137,9 +137,9 @@ void loop()
 #ifdef DEBUG
       Serial.println("backward");
 #endif
-      digitalWrite(in1, HIGH);
-      digitalWrite(in2, LOW);
-      digitalWrite(in3, LOW);
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, HIGH);
+      digitalWrite(in3, HIGH);
       digitalWrite(in4, LOW);
     }
 
