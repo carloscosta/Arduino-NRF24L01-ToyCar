@@ -73,8 +73,7 @@ void setup()
 void loop()
 {
   val_lvrx = analogRead(LVRx);
-  val_lvrx = map(val_lvrx, 0, 1023, 0, 255);
-  val_lvrx = constrain(val_lvrx, 0, 255);
+  val_lvrx = map(val_lvrx, 495, 0, 0, 255);
 
 #ifdef DEBUG
   Serial.print("LVRx = ");
@@ -82,35 +81,42 @@ void loop()
 #endif
 
   val_rvry = analogRead(RVRy);
-  val_rvry = map(val_rvry, 0, 1023, 0, 255);
-  val_rvry = constrain(val_rvry, 0, 255);
+  val_rvry = map(val_rvry, 509, 0, 0, 255);
 
 #ifdef DEBUG
   Serial.print("RVRy = ");
   Serial.println(val_rvry);
 #endif
 
-/* 0: left;
-   1: right;
-   2: honk;
-   3: front;
-   4: back;
-   5: panic */
+  /* 0: left;
+     1: right;
+     2: honk;
+     3: front;
+     4: back;
+     5: panic */
+
   /* right joystick */
-  if (val_rvry == 255)
-  {
-    buf[0] = 1;
-    buf[1] = 0;
-  }
-  else if (val_rvry == 0)
-  {
-    buf[0] = 0;
-    buf[1] = 1;
-  }
-  else if (val_rvry >= 115 && val_rvry <= 135)
+  if (val_rvry == 0)
   {
     buf[0] = 0;
     buf[1] = 0;
+  }
+  else if (val_rvry < 0)
+  {
+    buf[1] = 0;
+    if (val_rvry <= -255)
+    {
+      buf[0] = 255;
+    }
+    else
+    {
+      buf[0] = abs(val_rvry);
+    }
+  }
+  else if (val_rvry > 0)
+  {
+    buf[1] = val_rvry;
+    buf[0] = 0;
   }
 
   // panic
@@ -119,21 +125,26 @@ void loop()
   /* left joystick */
   if (val_lvrx == 0)
   {
-    buf[3] = 1;
-    buf[4] = 0;
-  }
-  else if (val_lvrx == 255)
-  {
-    buf[3] = 0;
-    buf[4] = 1;
-  }
-  else if (val_rvry >= 115 && val_rvry <= 135)
-  {
     buf[3] = 0;
     buf[4] = 0;
   }
-
-  buf[5] = 0;
+  else if (val_lvrx > 0)
+  {
+    buf[4] = 0;
+    buf[3] = val_lvrx;
+  }
+  else if (val_lvrx < 0)
+  {
+    if (val_lvrx <= -255)
+    {
+      buf[4] = 255;
+    }
+    else
+    {
+      buf[4] = abs(val_lvrx);
+    }
+    buf[3] = 0;
+  }
 
 #ifdef DEBUG
   Serial.print("buf[left;right;honk;front;back;panic] = ");
@@ -148,4 +159,5 @@ void loop()
 
   rf_driver.send((uint8_t *)buf, 6);
   rf_driver.waitPacketSent();
+  delay(300);
 }

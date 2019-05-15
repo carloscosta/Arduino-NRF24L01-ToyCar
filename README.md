@@ -1,11 +1,15 @@
-# Arduino-NRF24L01-ToyCar
+# Arduino-RF433MHZ-ToyCar
 
-I am no longer using **NRF24L01** for this project.
-I decided to use a much simple solution using a 
-$3 RF 433 MHZ kit, which comes with a transmiter
-and a receiver module. For more details about 
-RF 433 visit
+I decided to build an Arduino RC Car using a 
+much simple solution base on a $3 module called
+RF 433 MHZ kit, which comes with a transmiter
+and a receiver peace. 
+
+For more details about RF 433 visit
 [this](https://www.instructables.com/id/RF-315433-MHz-Transmitter-receiver-Module-and-Ardu/)
+
+Here is the car :)
+
 
 You will need to install
 [RadioHead](http://www.airspayce.com/mikem/arduino/RadioHead/) 

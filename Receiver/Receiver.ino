@@ -5,7 +5,7 @@
 // Include dependant SPI Library
 #include <SPI.h>
 
-#define DEBUG 1
+#define DEBUG 0 
 #define BUZ 13
 
 // Create Amplitude Shift Keying Object
@@ -19,11 +19,10 @@ RH_ASK rf_driver;
    5: panic */
 uint8_t buf[6] = {0, 0, 0, 0, 0, 0};
 
-const int in1 = 3;
-const int in2 = 4;
-const int in3 = 5;
-const int in4 = 6;
-
+const int in1 = 2;
+const int in2 = 3;
+const int in3 = 4;
+const int in4 = 5;
 
 void startup_song()
 {
@@ -58,7 +57,7 @@ void setup()
   pinMode(in2, OUTPUT);
   pinMode(in3, OUTPUT);
   pinMode(in4, OUTPUT);
-
+ 
   // Initialize ASK Object
   rf_driver.init();
 
@@ -102,7 +101,20 @@ void loop()
     if (buf[0] > 0)
     {
 #ifdef DEBUG
-      Serial.println("left");
+      Serial.print("left, buf[0]=");
+      Serial.println(buf[0]);
+#endif
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, LOW);
+      digitalWrite(in3, LOW);
+      digitalWrite(in4, HIGH);
+    }
+
+    if (buf[1] > 0)
+    {
+#ifdef DEBUG
+      Serial.print("right, buf[1]=");
+      Serial.println(buf[1]);
 #endif
       digitalWrite(in1, LOW);
       digitalWrite(in2, LOW);
@@ -110,36 +122,27 @@ void loop()
       digitalWrite(in4, LOW);
     }
 
-    if (buf[1] > 0)
-    {
-#ifdef DEBUG
-      Serial.println("right");
-#endif
-      digitalWrite(in1, LOW);
-      digitalWrite(in2, LOW);
-      digitalWrite(in3, LOW);
-      digitalWrite(in4, HIGH);
-    }
-
     if (buf[3] > 0)
     {
 #ifdef DEBUG
-      Serial.println("forward");
+      Serial.print("forward, buf[3]=");
+      Serial.println(buf[3]);
 #endif
-      digitalWrite(in1, HIGH);
-      digitalWrite(in2, LOW);
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, HIGH);
       digitalWrite(in3, LOW);
-      digitalWrite(in4, HIGH);
+      digitalWrite(in4, LOW);
     }
 
     if (buf[4] > 0)
     {
 #ifdef DEBUG
-      Serial.println("backward");
+      Serial.print("backward, buf[4]=");
+      Serial.println(buf[4]);
 #endif
-      digitalWrite(in1, LOW);
-      digitalWrite(in2, HIGH);
-      digitalWrite(in3, HIGH);
+      digitalWrite(in1, HIGH);
+      digitalWrite(in2, LOW);
+      digitalWrite(in3, LOW);
       digitalWrite(in4, LOW);
     }
 
@@ -154,4 +157,5 @@ void loop()
       digitalWrite(in4, LOW);
     }
   }
+  delay(300);
 }
